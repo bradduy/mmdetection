@@ -147,7 +147,7 @@ async def async_inference_detector(model, img):
     return result
 
 
-def show_result_pyplot(model, img, result, score_thr=0.3, fig_size=(15, 10)):
+def show_result_pyplot(index, model, img, result, score_thr=0.3, fig_size=(15, 10)):
     """Visualize the detection results on the image.
 
     Args:
@@ -160,7 +160,11 @@ def show_result_pyplot(model, img, result, score_thr=0.3, fig_size=(15, 10)):
     """
     if hasattr(model, 'module'):
         model = model.module
-    img = model.show_result(img, result, score_thr=score_thr, show=False)
+    img = model.show_result(img, result, score_thr=score_thr, show=False, thickness=5)
     plt.figure(figsize=fig_size)
     plt.imshow(mmcv.bgr2rgb(img))
-    plt.show()
+    plt.axis('off')
+    plt.savefig('./result_images/' + index[-16:], bbox_inches='tight', pad_inches=0)
+    plt.clf()
+    plt.close('all')
+    # plt.show()
